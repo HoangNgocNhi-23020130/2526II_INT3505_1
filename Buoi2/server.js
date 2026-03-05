@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const app = express();
 
 // Cổng lắng nghe
@@ -7,8 +8,22 @@ const PORT = 1604;
 // Hỗ trợ phiên dịch
 app.use(express.json());
 
-// Database
-let books = [];
+const FILE_PATH = './database.json';
+// Đọc dữ liệu
+const readData = () => {
+    try {
+        const data = fs.readFileSync(FILE_PATH, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        return []; // Nếu file chưa tồn tại, trả về mảng rỗng
+    }
+};
+
+// Ghi dữ liệu
+const writeData = (data) => {
+    // Format file JSON thụt lề cho đẹp, dễ đọc
+    fs.writeFileSync(FILE_PATH, JSON.stringify(data, null, 2));
+};
 
 // POST: thêm sách
 app.post('/api/books', async (req, res) => {
@@ -20,6 +35,8 @@ app.post('/api/books', async (req, res) => {
         if (!title || !author) {
             return res.status(400).json({ message: "Vui lòng cung cấp đủ Tên sách và Tác giả!" });
         }
+
+        let books = await readData();
 
         // Check trùng lặp
         const isDuplicate = books.some(b => b.title === title && b.author === author);
@@ -38,6 +55,7 @@ app.post('/api/books', async (req, res) => {
         };
         
         books.push(newBook);
+        writeData(books);
         
         // Trả về thành công (201 Created)
         res.status(201).json({ message: "Thêm sách thành công", data: newBook });
@@ -52,6 +70,7 @@ app.post('/api/books', async (req, res) => {
 // GET: Lấy danh sách toàn bộ sách
 app.get('/api/books', async (req, res) => {
     try {
+        let books = await readData();
         res.status(200).json({
             message: "Lấy danh sách thành công",
             total: books.length,
@@ -66,6 +85,7 @@ app.get('/api/books', async (req, res) => {
 // PUT: Ghi đè toàn bộ thông tin của cuốn sách
 app.put('/api/books/:id', async (req, res) => {
     try {
+        let books = await readData();
         const bookId = req.params.id;
         const index = books.findIndex(b => b.id === bookId);
         
@@ -83,6 +103,7 @@ app.put('/api/books/:id', async (req, res) => {
             published_year: published_year,
             status: status
         };
+        writeData(books);
 
         res.status(200).json({ message: "Cập nhật toàn bộ thông tin thành công", data: books[index] });
     } catch (error) {
@@ -94,6 +115,7 @@ app.put('/api/books/:id', async (req, res) => {
 // PATCH: Đổi trạng thái sang "Đã mượn"
 app.patch('/api/books/:id', async (req, res) => {
     try {
+        let books = await readData();
         const bookId = req.params.id;
         const book = books.find(b => b.id === bookId);
 
@@ -102,6 +124,8 @@ app.patch('/api/books/:id', async (req, res) => {
         }
 
         book.status = "Đã mượn";
+
+        writeData(books);
 
         res.status(200).json({ message: "Cập nhật trạng thái sách thành công", data: book });
     } catch (error) {
@@ -113,6 +137,7 @@ app.patch('/api/books/:id', async (req, res) => {
 // DELETE: Rút một cuốn sách khỏi thư viện
 app.delete('/api/books/:id', async (req, res) => {
     try {
+        let books = await readData();
         const bookId = req.params.id;
         const initialLength = books.length;
         
@@ -121,7 +146,8 @@ app.delete('/api/books/:id', async (req, res) => {
         if (books.length === initialLength) {
             return res.status(404).json({ message: "Không tìm thấy sách để xóa" });
         }
-        
+        writeData(books);
+
         res.status(204).send(); // Xóa thành công, không trả về dữ liệu (No Content)
     } catch (error) {
         console.error("Lỗi khi DELETE:", error);

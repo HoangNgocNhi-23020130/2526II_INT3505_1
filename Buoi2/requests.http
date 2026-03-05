@@ -7,6 +7,15 @@ Content-Type: application/json
   "author": "J.K. Rowling", 
   "published_year": 1997
 }
+###
+POST http://localhost:1604/api/books
+Content-Type: application/json
+
+{
+  "title": "The Old Man and the Sea",
+  "author": "Ernest Hemingway", 
+  "published_year": 1952
+}
 
 ### 2. Lấy danh sách sách hiện có (GET)
 GET http://localhost:1604/api/books
