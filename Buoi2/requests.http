@@ -1,5 +1,4 @@
 ### 1. Thêm sách (POST)
-# @name createBook
 POST http://localhost:1604/api/books
 Content-Type: application/json
 
@@ -11,3 +10,20 @@ Content-Type: application/json
 
 ### 2. Lấy danh sách sách hiện có (GET)
 GET http://localhost:1604/api/books
+
+### 3. Ghi đè toàn bộ thông tin sách (PUT)
+PUT http://localhost:1604/api/books/<ID>
+Content-Type: application/json
+
+{
+  "title": "Clean Code: Tái bản 2024",
+  "author": "Robert C. Martin",
+  "published_year": 2024,
+  "status": "Có sẵn"
+}
+
+### 4. Có người mượn sách (PATCH)
+PATCH http://localhost:1604/api/books/<ID>
+
+### 5. Xóa cuốn sách (DELETE)
+DELETE http://localhost:1604/api/books/<ID>

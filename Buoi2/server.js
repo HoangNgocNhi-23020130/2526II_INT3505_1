@@ -63,6 +63,72 @@ app.get('/api/books', async (req, res) => {
     }
 });
 
+// PUT: Ghi đè toàn bộ thông tin của cuốn sách
+app.put('/api/books/:id', async (req, res) => {
+    try {
+        const bookId = req.params.id;
+        const index = books.findIndex(b => b.id === bookId);
+        
+        if (index === -1) {
+            return res.status(404).json({ message: "Không tìm thấy sách để cập nhật" });
+        }
+
+        // Lấy dữ liệu mới từ body để đè lên
+        const { title, author, published_year, status } = req.body;
+        
+        books[index] = {
+            id: bookId, // Giữ nguyên ID gốc
+            title: title,
+            author: author,
+            published_year: published_year,
+            status: status
+        };
+
+        res.status(200).json({ message: "Cập nhật toàn bộ thông tin thành công", data: books[index] });
+    } catch (error) {
+        console.error("Lỗi khi PUT:", error);
+        res.status(500).json({ message: "Đã xảy ra lỗi trên Server", error: error.message });
+    }
+});
+
+// PATCH: Đổi trạng thái sang "Đã mượn"
+app.patch('/api/books/:id', async (req, res) => {
+    try {
+        const bookId = req.params.id;
+        const book = books.find(b => b.id === bookId);
+
+        if (!book) {
+            return res.status(404).json({ message: "Không tìm thấy sách" });
+        }
+
+        book.status = "Đã mượn";
+
+        res.status(200).json({ message: "Cập nhật trạng thái sách thành công", data: book });
+    } catch (error) {
+        console.error("Lỗi khi PATCH:", error);
+        res.status(500).json({ message: "Đã xảy ra lỗi trên Server", error: error.message });
+    }
+});
+
+// DELETE: Rút một cuốn sách khỏi thư viện
+app.delete('/api/books/:id', async (req, res) => {
+    try {
+        const bookId = req.params.id;
+        const initialLength = books.length;
+        
+        books = books.filter(b => b.id !== bookId);
+
+        if (books.length === initialLength) {
+            return res.status(404).json({ message: "Không tìm thấy sách để xóa" });
+        }
+        
+        res.status(204).send(); // Xóa thành công, không trả về dữ liệu (No Content)
+    } catch (error) {
+        console.error("Lỗi khi DELETE:", error);
+        res.status(500).json({ message: "Đã xảy ra lỗi trên Server", error: error.message });
+    }
+});
+
 // Khởi động server
 app.listen(PORT, () => {
     console.log(`Server đang chạy tại http://localhost:${PORT}`);
