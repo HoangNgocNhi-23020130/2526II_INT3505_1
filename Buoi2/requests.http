@@ -1,0 +1,10 @@
+### 1. Thêm cuốn sách đầu tiên (POST)
+# @name createBook
+POST http://localhost:1604/api/books
+Content-Type: application/json
+
+{
+  "title": "The Little Prince",
+  "author": "Antoine De Saint-Exupéry", 
+  "published_year": 1943
+}
