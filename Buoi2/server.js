@@ -10,7 +10,7 @@ app.use(express.json());
 // Database
 let books = [];
 
-// Post thêm sách
+// POST: thêm sách
 app.post('/api/books', async (req, res) => {
     try {
         // Lấy dữ liệu từ client gửi lên
@@ -45,6 +45,20 @@ app.post('/api/books', async (req, res) => {
     } catch (error) {
         // Bắt lỗi và trả về lỗi 500 (Internal Server Error)
         console.error("Lỗi khi thêm sách:", error);
+        res.status(500).json({ message: "Đã xảy ra lỗi trên Server", error: error.message });
+    }
+});
+
+// GET: Lấy danh sách toàn bộ sách
+app.get('/api/books', async (req, res) => {
+    try {
+        res.status(200).json({
+            message: "Lấy danh sách thành công",
+            total: books.length,
+            data: books
+        });
+    } catch (error) {
+        console.error("Lỗi khi GET:", error);
         res.status(500).json({ message: "Đã xảy ra lỗi trên Server", error: error.message });
     }
 });

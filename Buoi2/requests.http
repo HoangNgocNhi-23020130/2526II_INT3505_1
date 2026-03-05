@@ -1,10 +1,13 @@
-### 1. Thêm cuốn sách đầu tiên (POST)
+### 1. Thêm sách (POST)
 # @name createBook
 POST http://localhost:1604/api/books
 Content-Type: application/json
 
 {
-  "title": "The Little Prince",
-  "author": "Antoine De Saint-Exupéry", 
-  "published_year": 1943
+  "title": "Harry Potter and the Sorcerer's Stone",
+  "author": "J.K. Rowling", 
+  "published_year": 1997
 }
+
+### 2. Lấy danh sách sách hiện có (GET)
+GET http://localhost:1604/api/books
