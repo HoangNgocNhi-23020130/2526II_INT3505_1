@@ -1,2 +1,30 @@
-# GET
-http://127.0.0.1:1604/api/users
+### GET
+GET http://127.0.0.1:1604/api/users
+
+### POST
+POST http://127.0.0.1:1604/api/users
+Content-Type: application/json
+
+{
+    "name": "Le Van C",
+    "role": "Admin"
+}
+### PUT
+PUT http://127.0.0.1:1604/api/users/<ID>
+Content-Type: application/json
+
+{
+    "name": "Nguyen Van A",
+    "role": "Super Admin"
+}
+
+### PATCH
+PATCH http://127.0.0.1:1604/api/users/<ID>
+Content-Type: application/json
+
+{
+    "role": "Manager"
+}
+
+###  DELETE
+DELETE http://127.0.0.1:1604/api/users/<ID>

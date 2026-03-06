@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -11,14 +11,44 @@ users_db = [
 
 @app.route('/api/users', methods=['GET'])
 def get_users():
-    """
-    Server chỉ trả về dữ liệu thuần túy (JSON). 
-    Nó không quan tâm Client sẽ hiển thị bảng, danh sách hay biểu đồ.
-    """
     return jsonify({
         "status": "success",
         "data": users_db
     })
+
+@app.route('/api/users', methods=['POST'])
+def post_users():
+    new_users = {"id": len(users_db) + 1,
+                 "name": request.json['name'],
+                 "role": request.json['role']}
+    users_db.append(new_users)
+    return jsonify(new_users), 201
+
+@app.route('/api/users/<int:user_id>', methods=['PUT'])
+def changeall_users(user_id):
+    user = next((u for u in users_db if u["id"] == user_id), None)
+    if user:
+        user['name'] = request.json['name']
+        user['role'] = request.json['role']
+        return jsonify({"message": "Updated full user", "data": user})
+    return jsonify({"error": "Not found"}), 404
+
+@app.route('/api/users/<int:user_id>', methods=['PATCH'])
+def update_user_partial(user_id):
+    user = next((u for u in users_db if u["id"] == user_id), None)
+    if user:
+        if 'name' in request.json:
+            user['name'] = request.json['name']
+        if 'role' in request.json:
+            user['role'] = request.json['role']
+        return jsonify({"message": "Partial update success", "data": user})
+    return jsonify({"error": "Not found"}), 404
+
+@app.route('/api/users/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id):
+    global users_db
+    users_db = [u for u in users_db if u["id"] != user_id]
+    return jsonify({"message": f"User {user_id} deleted"}), 200
 
 # Server: Start
 if __name__ == '__main__':
