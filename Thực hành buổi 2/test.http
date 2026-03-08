@@ -1,4 +1,7 @@
 ### GET
+### Muốn thấy tác dụng của cache hãy dùng chomre
+### Lần nhập link đầu sẽ cần chờ 10s
+### Lần nhập 2 sẽ load đc tức thì
 GET http://127.0.0.1:1604/api/users
 
 ### POST

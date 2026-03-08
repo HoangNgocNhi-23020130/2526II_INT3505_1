@@ -1,4 +1,5 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, make_response
+import time
 
 app = Flask(__name__)
 
@@ -10,11 +11,25 @@ users_db = [
 ]
 
 @app.route('/api/users', methods=['GET'])
-def get_users():
-    return jsonify({
+def get_user_heavy_data():
+    # Giả lập một tác vụ tốn thời gian (truy vấn DB lớn, tính toán phức tạp...)
+    # Cần chờ 10s để có thể tải hoàn tất dữ liệu
+    time.sleep(10) 
+    
+    response = make_response(jsonify({
         "status": "success",
-        "data": users_db
-    })
+        "message": "Đây là dữ liệu nặng đã xử lý xong!",
+        "data": users_db,
+        "timestamp": time.time()
+    }
+    ))
+    
+    # Thiết lập Cache trong 60 giây. 
+    # 'public': Cho phép cả trình duyệt và các Proxy lưu cache.
+    # 'max-age=60': Dữ liệu có hiệu lực trong 60s.
+    response.headers['Cache-Control'] = 'public, max-age=60'
+    
+    return response
 
 @app.route('/api/users', methods=['POST'])
 def post_users():
