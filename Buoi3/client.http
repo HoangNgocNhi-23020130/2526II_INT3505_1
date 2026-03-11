@@ -1,0 +1,6 @@
+### GET ALL BOOKS
+GET http://127.0.0.1:1604/api/books
+### GET A BOOK
+GET http://127.0.0.1:1604/api/books/<ID>
+### GET ALL AUTHORS
+GET http://127.0.0.1:1604/api/authors
