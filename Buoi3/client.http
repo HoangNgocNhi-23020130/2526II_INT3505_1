@@ -4,3 +4,7 @@ GET http://127.0.0.1:1604/api/books
 GET http://127.0.0.1:1604/api/books/<ID>
 ### GET ALL AUTHORS
 GET http://127.0.0.1:1604/api/authors
+### FILTER BOOKS
+GET http://127.0.0.1:1604/api/books?category=fiction
+### GET BOOKS BY AUTHORS
+GET http://127.0.0.1:1604/api/authors/<ID>/books

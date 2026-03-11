@@ -4,10 +4,11 @@ app = Flask(__name__)
 
 # Database
 books_db = [
-    {"id": 1, "title": "De Men Phieu Luu Ky", "author_id": 101},
-    {"id": 2, "title": "Luoc Su Thoi Gian", "author_id": 102},
-    {"id": 3, "title": "Khong Gia Dinh", "author_id": 103}
-]
+    {"id": 1, "title": "De Men Phieu Luu Ky", "author_id": 101, "category": "Fiction"},
+    {"id": 2, "title": "Luoc Su Thoi Gian", "author_id": 102, "category": "Science"},
+    {"id": 3, "title": "Khong Gia Dinh", "author_id": 103, "category": "Fiction"},
+    {"id": 4, "title": "Dat Rung Phuong Nam", "author_id": 101, "category": "Fiction"}
+] # Thêm thể loại để lọc
 authors_db = [
     {"id": 101, "name": "To Hoai"},
     {"id": 102, "name": "Stephen Hawking"},
@@ -27,8 +28,16 @@ def library_response(status, data=None, message=None, code=200):
     }), code # mã phản hồi
 
 # Endpoint cho Books
+# Tính dễ hiểu trong lọc dữ liệu: Client truyền tham số gì trong URL thì lọc đó
 @app.route('/api/books', methods=['GET'])
 def get_books():
+    # Lấy tham số lọc từ URL: ?category=Science
+    category = request.args.get('category')
+    
+    if category:
+        filtered_books = [b for b in books_db if b['category'].lower() == category.lower()]
+        return library_response("success", data=filtered_books)
+    
     return library_response("success", data=books_db)
 
 @app.route('/api/books/<int:book_id>', methods=['GET'])
@@ -56,6 +65,21 @@ def add_author():
     }
     authors_db.append(new_author)
     return library_response("success", data=new_author, message="POST Successful", code=201)
+
+# Tính dễ hiểu trong quan hệ giữa các tài nguyên
+@app.route('/api/authors/<int:author_id>/books', methods=['GET'])
+def get_books_by_author(author_id):
+    """
+    Ý của URL: 'Lấy các cuốn sách CỦA tác giả có ID này'.
+    Thay vì dùng: /api/getBooksByAuthorID?id=101
+        -> Trông khó hiểu, không nhất quán với các tác vụ khác tương tự
+    """
+    author_books = [b for b in books_db if b['author_id'] == author_id]
+    
+    if not author_books:
+        return library_response("error", message="Not Found", code=404)
+        
+    return library_response("success", data=author_books)
 
 if __name__ == '__main__':
     app.run(debug=True, port=1604)
