@@ -10,12 +10,18 @@ users_db = [
     {"id": 3, "name": "Hoang Ngoc Nhi", "role": "Editor"}
 ]
 
+def check_auth():
+    # Stateless: Client phải gửi mã định danh trong Header 'Authorization'
+    auth_key = request.headers.get("Authorization")
+    return auth_key == "password"
+
 @app.route('/api/users', methods=['GET'])
-def get_user_heavy_data():
-    # Giả lập một tác vụ tốn thời gian (truy vấn DB lớn, tính toán phức tạp...)
-    # Cần chờ 10s để có thể tải hoàn tất dữ liệu
-    time.sleep(10) 
+def get_user_stateless():
+    # Kiểm tra xem Client có gửi "thẻ định danh" không
+    if not check_auth():
+        return jsonify({"error": "Chưa xác thực, vui lòng gửi kèm Token!"}), 401
     
+    time.sleep(10) 
     response = make_response(jsonify({
         "status": "success",
         "message": "Đây là dữ liệu nặng đã xử lý xong!",
@@ -33,6 +39,9 @@ def get_user_heavy_data():
 
 @app.route('/api/users', methods=['POST'])
 def post_users():
+    if not check_auth():
+        return jsonify({"error": "Chưa xác thực, vui lòng gửi kèm Token!"}), 401
+    
     new_users = {"id": len(users_db) + 1,
                  "name": request.json['name'],
                  "role": request.json['role']}
@@ -41,6 +50,9 @@ def post_users():
 
 @app.route('/api/users/<int:user_id>', methods=['PUT'])
 def changeall_users(user_id):
+    if not check_auth():
+        return jsonify({"error": "Chưa xác thực, vui lòng gửi kèm Token!"}), 401
+    
     user = next((u for u in users_db if u["id"] == user_id), None)
     if user:
         user['name'] = request.json['name']
@@ -50,6 +62,9 @@ def changeall_users(user_id):
 
 @app.route('/api/users/<int:user_id>', methods=['PATCH'])
 def update_user_partial(user_id):
+    if not check_auth():
+        return jsonify({"error": "Chưa xác thực, vui lòng gửi kèm Token!"}), 401
+    
     user = next((u for u in users_db if u["id"] == user_id), None)
     if user:
         if 'name' in request.json:
@@ -61,6 +76,9 @@ def update_user_partial(user_id):
 
 @app.route('/api/users/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
+    if not check_auth():
+        return jsonify({"error": "Chưa xác thực, vui lòng gửi kèm Token!"}), 401
+    
     global users_db
     users_db = [u for u in users_db if u["id"] != user_id]
     return jsonify({"message": f"User {user_id} deleted"}), 200

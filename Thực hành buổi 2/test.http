@@ -1,12 +1,11 @@
 ### GET
-### Muốn thấy tác dụng của cache hãy dùng chomre
-### Lần nhập link đầu sẽ cần chờ 10s
-### Lần nhập 2 sẽ load đc tức thì
 GET http://127.0.0.1:1604/api/users
+Authorization: password
 
 ### POST
 POST http://127.0.0.1:1604/api/users
 Content-Type: application/json
+Authorization: password
 
 {
     "name": "Le Van C",
@@ -15,6 +14,7 @@ Content-Type: application/json
 ### PUT
 PUT http://127.0.0.1:1604/api/users/<ID>
 Content-Type: application/json
+Authorization: password
 
 {
     "name": "Nguyen Van A",
@@ -24,6 +24,7 @@ Content-Type: application/json
 ### PATCH
 PATCH http://127.0.0.1:1604/api/users/<ID>
 Content-Type: application/json
+Authorization: password
 
 {
     "role": "Manager"
@@ -31,3 +32,4 @@ Content-Type: application/json
 
 ###  DELETE
 DELETE http://127.0.0.1:1604/api/users/<ID>
+Authorization: password
