@@ -2,6 +2,8 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+
+
 # Giả lập database nhiều dữ liệu
 books_db = [{"id": i, "title": f"Book {i}",
              "author_id": 100+i, "category": "Fiction"} for i in range(1, 51)]
@@ -26,7 +28,7 @@ def library_response(status, data=None, message=None, meta=None, code=200):
 
 # Endpoint cho Books
 # Tính dễ hiểu trong lọc dữ liệu: Client truyền tham số gì trong URL thì lọc đó
-@app.route('/api/books', methods=['GET'])
+@app.route('/api/v4/books', methods=['GET'])
 def get_books():
     # Lấy tham số lọc từ URL: ?category=Science
     category = request.args.get('category')
@@ -58,7 +60,8 @@ def get_books():
         meta=meta,
         message=f"Found {total_books} books"
     )
-@app.route('/api/books/<int:book_id>', methods=['GET'])
+### Quy tắc đặt tên: Resource ID nằm trong URL sau danh từ số nhiều
+@app.route('/api/v4/books/<int:book_id>', methods=['GET'])
 def get_book(book_id):
     book = next((b for b in books_db if b["id"] == book_id), None)
     if book:
@@ -68,11 +71,12 @@ def get_book(book_id):
 
 # Endpoint cho Authors
 # Cấu trúc URL cho Authors tương tự như Books
-@app.route('/api/authors', methods=['GET'])
+# Quy tác đặt tên: Danh từ số nhiều, chữ thường
+@app.route('/api/v4/authors', methods=['GET'])
 def get_authors():
     return library_response("success", data=authors_db)
 
-@app.route('/api/authors', methods=['POST'])
+@app.route('/api/v4/authors', methods=['POST'])
 def add_author():
     if not request.json or 'name' not in request.json:
         return library_response("error", message="Please write name", code=400)
@@ -85,7 +89,8 @@ def add_author():
     return library_response("success", data=new_author, message="POST Successful", code=201)
 
 # Tính dễ hiểu trong quan hệ giữa các tài nguyên
-@app.route('/api/authors/<int:author_id>/books', methods=['GET'])
+# Quy tắc đặt tên: Thể hiện quan hệ phân cấp: sách của tác giả
+@app.route('/api/v4/authors/<int:author_id>/books', methods=['GET'])
 def get_books_by_author(author_id):
     """
     Ý của URL: 'Lấy các cuốn sách CỦA tác giả có ID này'.

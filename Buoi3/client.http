@@ -1,10 +1,13 @@
+### Quy tắc đặt tên:
+### Versioning: thêm /v4/ để phân biệt giữa các phiên bản
+
 ### GET ALL BOOKS
-GET http://127.0.0.1:1604/api/books?page=3
+GET http://127.0.0.1:1604/api/v4/books?page=3
 ### GET A BOOK
-GET http://127.0.0.1:1604/api/books/<ID>
+GET http://127.0.0.1:1604/api/v4/books/<ID>
 ### GET ALL AUTHORS
-GET http://127.0.0.1:1604/api/authors
+GET http://127.0.0.1:1604/api/v4/authors
 ### FILTER BOOKS
-GET http://127.0.0.1:1604/api/books?category=fiction
+GET http://127.0.0.1:1604/api/v4/books?category=fiction
 ### GET BOOKS BY AUTHORS
-GET http://127.0.0.1:1604/api/authors/<ID>/books
+GET http://127.0.0.1:1604/api/v4/authors/<ID>/books
