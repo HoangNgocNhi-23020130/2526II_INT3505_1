@@ -2,13 +2,9 @@ from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-# Database
-books_db = [
-    {"id": 1, "title": "De Men Phieu Luu Ky", "author_id": 101, "category": "Fiction"},
-    {"id": 2, "title": "Luoc Su Thoi Gian", "author_id": 102, "category": "Science"},
-    {"id": 3, "title": "Khong Gia Dinh", "author_id": 103, "category": "Fiction"},
-    {"id": 4, "title": "Dat Rung Phuong Nam", "author_id": 101, "category": "Fiction"}
-] # Thêm thể loại để lọc
+# Giả lập database nhiều dữ liệu
+books_db = [{"id": i, "title": f"Book {i}",
+             "author_id": 100+i, "category": "Fiction"} for i in range(1, 51)]
 authors_db = [
     {"id": 101, "name": "To Hoai"},
     {"id": 102, "name": "Stephen Hawking"},
@@ -16,16 +12,17 @@ authors_db = [
 ]
 
 # Các phản hồi đều nhất quán
-def library_response(status, data=None, message=None, code=200):
-    """
-    Đảm bảo mọi API của Thư viện
-    đều trả về cùng một cấu trúc JSON duy nhất.
-    """
-    return jsonify({
-        "status": status,    # 'success' hoặc 'error'
-        "data": data,        # Dữ liệu
-        "message": message   # Thông báo phản hồi
-    }), code # mã phản hồi
+# Thêm tham số 'meta' để chứa thông tin phân trang,
+# giúp API dễ mở rộng với các tập dữ liệu lớn
+def library_response(status, data=None, message=None, meta=None, code=200):
+    response = {
+        "status": status,
+        "data": data,
+        "message": message
+    }
+    if meta:
+        response["meta"] = meta
+    return jsonify(response), code
 
 # Endpoint cho Books
 # Tính dễ hiểu trong lọc dữ liệu: Client truyền tham số gì trong URL thì lọc đó
@@ -33,13 +30,34 @@ def library_response(status, data=None, message=None, code=200):
 def get_books():
     # Lấy tham số lọc từ URL: ?category=Science
     category = request.args.get('category')
+
+    # Mỗi trang 10 cuốn sách
+    page = int(request.args.get('page', 1))
+    limit = int(request.args.get('limit', 10))
     
+    filtered_books = books_db
     if category:
         filtered_books = [b for b in books_db if b['category'].lower() == category.lower()]
-        return library_response("success", data=filtered_books)
-    
-    return library_response("success", data=books_db)
 
+    # Phân trang dữ liệu
+    total_books = len(filtered_books)
+    start = (page - 1) * limit
+    end = start + limit
+    paginated_data = filtered_books[start:end]
+
+    meta = {
+        "current_page": page,
+        "limit": limit,
+        "total_books": total_books,
+        "total_pages": (total_books + limit - 1) // limit if limit > 0 else 1
+    }
+    
+    return library_response(
+        "success", 
+        data=paginated_data, 
+        meta=meta,
+        message=f"Found {total_books} books"
+    )
 @app.route('/api/books/<int:book_id>', methods=['GET'])
 def get_book(book_id):
     book = next((b for b in books_db if b["id"] == book_id), None)
