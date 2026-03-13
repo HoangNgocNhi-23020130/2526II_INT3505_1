@@ -1,35 +1,38 @@
 ### GET
-GET http://127.0.0.1:1604/api/users
-Authorization: password
+GET http://127.0.0.1:1604/api/books
 
 ### POST
-POST http://127.0.0.1:1604/api/users
+POST http://127.0.0.1:1604/api/books
 Content-Type: application/json
-Authorization: password
 
 {
-    "name": "Le Van C",
-    "role": "Admin"
+    "author": "Ngo Tat To",
+    "title": "Tat Den"
 }
-### PUT
-PUT http://127.0.0.1:1604/api/users/<ID>
+
+### Login get token
+# @name login
+POST http://127.0.0.1:1604/api/auth/login
 Content-Type: application/json
-Authorization: password
 
 {
-    "name": "Nguyen Van A",
-    "role": "Super Admin"
+    "username": "Hoang Ngoc Nhi",
+    "password": "0810"
 }
 
-### PATCH
-PATCH http://127.0.0.1:1604/api/users/<ID>
+### Lưu biến token từ kết quả trả về
+@authToken = {{login.response.body.token}}
+
+### GET
+GET http://127.0.0.1:1604/api/books
+Authorization: Bearer {{authToken}}
+
+### POST
+POST http://127.0.0.1:1604/api/books
+Authorization: Bearer {{authToken}}
 Content-Type: application/json
-Authorization: password
 
 {
-    "role": "Manager"
+    "author": "Ngo Tat To",
+    "title": "Tat Den"
 }
-
-###  DELETE
-DELETE http://127.0.0.1:1604/api/users/<ID>
-Authorization: password
