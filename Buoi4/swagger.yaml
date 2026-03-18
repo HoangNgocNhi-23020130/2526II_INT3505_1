@@ -2,11 +2,13 @@ openapi: 3.0.0
 info:
   title: Library Management API
   description: API đơn giản để quản lý đầu sách trong thư viện.
-  version: 1.0.0
+  version: 2.0.0
 
 servers:
   - url: http://127.0.0.1:1604/v1
     description: Local development server, version 1.0
+  - url: http://127.0.0.1:1604/v2
+    description: Local development server, version 2.0
 
 tags:
   - name: Books
@@ -27,6 +29,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayResponse'
+    post:
+      tags:
+        - Books
+      summary: Push a book
+      operationId: addBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '201':
+          description: Created!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectResponse'
+        '400':
+          description: Missing data!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -38,7 +64,7 @@ components:
         author: { type: string }
         isbn: { type: string }
 
-    Response:
+    ArrayResponse:
       type: object
       properties:
         success: { type: boolean }
@@ -50,3 +76,18 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Book'
+      
+    ObjectResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          $ref: '#/components/schemas/Book'
+        
+    ErrorResponse:
+      type: object
+      properties:
+        success: { type: boolean  }
+        message: { type: string }
+        data: { nullable: true }
