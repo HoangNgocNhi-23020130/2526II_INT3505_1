@@ -1,0 +1,52 @@
+openapi: 3.0.0
+info:
+  title: Library Management API
+  description: API đơn giản để quản lý đầu sách trong thư viện.
+  version: 1.0.0
+
+servers:
+  - url: http://127.0.0.1:1604/v1
+    description: Local development server, version 1.0
+
+tags:
+  - name: Books
+    description: Books Management
+
+paths:
+  /books:
+    get:
+      tags:
+        - Books
+      summary: Get all books
+      description: Return a list of books
+      operationId: getBooks
+      responses:
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayResponse'
+
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        author: { type: string }
+        isbn: { type: string }
+
+    Response:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Book'
