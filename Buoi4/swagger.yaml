@@ -2,13 +2,15 @@ openapi: 3.0.0
 info:
   title: Library Management API
   description: API đơn giản để quản lý đầu sách trong thư viện.
-  version: 2.0.0
+  version: 3.0.0
 
 servers:
   - url: http://127.0.0.1:1604/v1
-    description: Local development server, version 1.0
+    description: Version 1.0
   - url: http://127.0.0.1:1604/v2
-    description: Local development server, version 2.0
+    description: Version 2.0
+  - url: http://127.0.0.1:1604/v3
+    description: Version 3.0
 
 tags:
   - name: Books
@@ -49,6 +51,31 @@ paths:
                 $ref: '#/components/schemas/ObjectResponse'
         '400':
           description: Missing data!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /books/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Books
+      summary: Get detail a book
+      operationId: getBook
+      responses:
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectResponse'
+        '404':
+          description: Not Found!
           content:
             application/json:
               schema:
