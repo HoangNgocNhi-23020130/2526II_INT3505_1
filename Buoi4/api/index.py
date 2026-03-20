@@ -1,3 +1,4 @@
+import os
 from flask import Flask, jsonify, request
 from flasgger import Swagger
 
@@ -7,8 +8,9 @@ app.config['SWAGGER'] = {
     'openapi': '3.0.0'
 }
 
-# Kết nối trực tiếp đến file YAML bên ngoài
-swagger = Swagger(app, template_file='swagger.yaml')
+current_dir = os.path.dirname(os.path.abspath(__file__))
+yaml_path = os.path.join(current_dir, '..', 'swagger.yaml')
+swagger = Swagger(app, template_file=yaml_path)
 
 # Database in-memory
 books = [
