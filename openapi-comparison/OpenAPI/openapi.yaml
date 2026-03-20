@@ -55,16 +55,16 @@ components:
     Book:
       type: object
       properties:
-        id: { type: integer }
-        title: { type: string }
-        author: { type: string }
-        isbn: { type: string }
+        id: { type: integer, example: 1 }
+        title: { type: string, example: "De men phieu luu ky" }
+        author: { type: string, example: "To Hoai" }
+        isbn: { type: string, example: "978-6042168673" }
 
     ArrayResponse:
       type: object
       properties:
-        success: { type: boolean }
-        message: { type: string }
+        success: { type: boolean, example: true }
+        message: { type: string, example: "Success!" }
         data:
           type: object
           properties:
@@ -76,14 +76,14 @@ components:
     ObjectResponse:
       type: object
       properties:
-        success: { type: boolean }
-        message: { type: string }
+        success: { type: boolean, example: true }
+        message: { type: string, example: "Success!" }
         data:
           $ref: '#/components/schemas/Book'
         
     ErrorResponse:
       type: object
       properties:
-        success: { type: boolean  }
-        message: { type: string }
-        data: { nullable: true }
+        success: { type: boolean, example: false }
+        message: { type: string, example: "Not Found the book!" }
+        data: { nullable: true, example: null }

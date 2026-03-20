@@ -1,0 +1,51 @@
+FORMAT: 1A
+
+# Library Management API
+API đơn giản để quản lý đầu sách trong thư viện.
+# Group Books
+Books Management
+
+## Books Collection [/books]
+
+### Get all books [GET]
+Return a list of books.
+
++ Response 200 (application/json)
+    + Attributes (ArrayResponse)
+
+## Book Detail [/books/{id}]
+
++ Parameters
+    + id: 2 (number, required)
+
+### Get detail a book [GET]
+
++ Response 200 (application/json)
+    + Attributes (ObjectResponse)
+
++ Response 404 (application/json)
+    + Attributes (ErrorResponse)
+
+# Data Structures
+
+## Book (object)
++ id: 1 (number)
++ title: `De men phieu lu ky` (string)
++ author: `To Hoai` (string)
++ isbn: `978-6042168673` (string)
+
+## ArrayResponse (object)
++ success: true (boolean)
++ message: `Success!` (string)
++ data (object)
+    + items (array[Book])
+
+## ObjectResponse (object)
++ success: true (boolean)
++ message: `Success!` (string)
++ data (Book)
+
+## ErrorResponse (object)
++ success: false (boolean)
++ message: `Not Found the book!` (string)
++ data: null
