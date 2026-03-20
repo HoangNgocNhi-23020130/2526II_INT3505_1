@@ -57,6 +57,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  
   /books/{id}:
     parameters:
       - name: id
@@ -133,6 +134,7 @@ components:
         author: { type: string }
         isbn: { type: string }
 
+  responses:
     ArrayResponse:
       type: object
       properties:

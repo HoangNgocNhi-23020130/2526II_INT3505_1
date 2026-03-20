@@ -82,6 +82,3 @@ def delete_book(id):
     
     books = [b for b in books if b['id'] != id]
     return send_response(data=None, message="The book has been removed from the system!", status_code=200)
-
-if __name__ == '__main__':
-    app.run(debug=True, port = 1604)
