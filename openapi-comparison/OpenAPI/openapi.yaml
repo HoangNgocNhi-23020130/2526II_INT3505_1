@@ -4,6 +4,10 @@ info:
   description: API đơn giản để quản lý đầu sách trong thư viện.
   version: 1.0.0
 
+servers:
+  - url: http://127.0.0.1:4010
+    description: Mock Server
+
 tags:
   - name: Books
     description: Books Management

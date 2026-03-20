@@ -8,6 +8,7 @@ using TypeSpec.OpenAPI;
 })
 
 @doc("API đơn giản để quản lý đầu sách trong thư viện.")
+@server("http://127.0.0.1:4010", "Mock Server")
 namespace LibraryApi;
 
 model Book {
