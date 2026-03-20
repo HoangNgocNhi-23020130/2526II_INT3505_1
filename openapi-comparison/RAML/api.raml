@@ -1,0 +1,75 @@
+#%RAML 1.0
+title: Library Management API
+description: API đơn giản để quản lý đầu sách trong thư viện.
+version: 1.0.0
+mediaType: application/json
+
+types:
+  Book:
+    type: object
+    properties:
+      id: integer
+      title: string
+      author: string
+      isbn: string
+    example:
+      id: 1
+      title: "De men phieu luu ky"
+      author: "To Hoai"
+      isbn: "978-6042168673"
+      
+  ArrayResponse:
+    type: object
+    properties:
+      success: boolean
+      message: string
+      data:
+        type: object
+        properties:
+          items: Book[]
+    
+  ObjectResponse:
+    type: object
+    properties:
+      success: boolean
+      message: string
+      data: Book
+        
+  ErrorResponse:
+    type: object
+    properties:
+      success: boolean
+      message: string
+      data: any
+    
+    example:
+      success: false
+      message: "Not Found the book!"
+      data: null
+
+/books:
+  displayName: Books
+  get:
+    description: Return a list of books
+    responses:
+      200:
+        description: Success!
+        body:
+          type: ArrayResponse
+  /{id}:
+    uriParameters:
+      id:
+        type: integer
+        required: true
+        example: 2
+    get:
+      description: Get detail a book
+      responses:
+        200:
+          description: Success!
+          body:
+            type: ObjectResponse
+        404:
+          description: Not Found!
+          body:
+            type: ErrorResponse
