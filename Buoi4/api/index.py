@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, redirect
 from flasgger import Swagger
 
 app = Flask(__name__)
@@ -11,6 +11,11 @@ app.config['SWAGGER'] = {
 current_dir = os.path.dirname(os.path.abspath(__file__))
 yaml_path = os.path.join(current_dir, '..', 'swagger.yaml')
 swagger = Swagger(app, template_file=yaml_path)
+
+@app.route('/')
+def home():
+    # Đưa người dùng sang trang tài liệu API
+    return redirect('/apidocs/')
 
 # Database in-memory
 books = [
