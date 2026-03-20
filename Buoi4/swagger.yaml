@@ -32,7 +32,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ArrayResponse'
+                $ref: '#/components/responses/ArrayResponse'
     post:
       tags:
         - Books
@@ -50,13 +50,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ObjectResponse'
+                $ref: '#/components/responses/ObjectResponse'
         '400':
           description: Missing data!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/responses/ErrorResponse'
   
   /books/{id}:
     parameters:
@@ -76,13 +76,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ObjectResponse'
+                $ref: '#/components/responses/ObjectResponse'
         '404':
           description: Not Found!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/responses/ErrorResponse'
     put:
       tags:
         - Books
@@ -99,13 +99,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ObjectResponse'
+                $ref: '#/components/responses/ObjectResponse'
         '404':
           description: Not Found!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/responses/ErrorResponse'
     delete:
       tags:
         - Books
@@ -116,13 +116,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuccessNoDataResponse'
+                $ref: '#/components/responses/SuccessNoDataResponse'
         '404':
           description: Not Found!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/components/responses/ErrorResponse'
 
 components:
   schemas:
