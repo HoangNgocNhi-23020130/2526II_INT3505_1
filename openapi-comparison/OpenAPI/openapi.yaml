@@ -1,0 +1,89 @@
+openapi: 3.0.0
+info:
+  title: Library Management API
+  description: API đơn giản để quản lý đầu sách trong thư viện.
+  version: 1.0.0
+
+tags:
+  - name: Books
+    description: Books Management
+
+paths:
+  /books:
+    get:
+      tags:
+        - Books
+      summary: Get all books
+      description: Return a list of books
+      operationId: getBooks
+      responses:
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayResponse'
+
+  /books/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Books
+      summary: Get detail a book
+      operationId: getBook
+      responses:
+        '200':
+          description: Success!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectResponse'
+        '404':
+          description: Not Found!
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        author: { type: string }
+        isbn: { type: string }
+
+    ArrayResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Book'
+      
+    ObjectResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          $ref: '#/components/schemas/Book'
+        
+    ErrorResponse:
+      type: object
+      properties:
+        success: { type: boolean  }
+        message: { type: string }
+        data: { nullable: true }
