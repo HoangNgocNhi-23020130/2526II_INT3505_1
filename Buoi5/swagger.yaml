@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: Library Management API
+  description: API quản lý thư viện.
+  version: 1.0.0
+
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        isbn: { type: string, example: "978-604-2-18959-0"}
+        title: { type: string, example: "De men phieu luu ky" }
+        author: { type: string, example: "To Hoai" }
+        total_copies: {type: integer, example: "5" }
+        available_copies: {type: integer, example: "3" }
+    
+    Reader:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        name: { type: string, example: "Hoang Ngoc Nhi" }
+        email: { type: string, example: "socnhi1604@gmail.com" }
+        phone: { type: string, example: "0334127080" }
+        membership_date: {type: string, format: date, example: "2026-03-26" }
