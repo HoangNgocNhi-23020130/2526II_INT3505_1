@@ -7,6 +7,8 @@ from routes.v1.reader_routes import reader_bp as reader_v1_bp
 from routes.v1.borrow_routes import borrow_bp as borrow_v1_bp
 
 from routes.v2.book_routes import book_bp as book_v2_bp
+from routes.v2.reader_routes import reader_bp as reader_v2_bp
+from routes.v2.borrow_routes import borrow_bp as borrow_v2_bp
 
 def create_app():
     app = Flask(__name__)
@@ -21,6 +23,8 @@ def create_app():
     app.register_blueprint(borrow_v1_bp, url_prefix='/api/v1/readers/<int:rid>/borrow-records')
 
     app.register_blueprint(book_v2_bp, url_prefix='/api/v2/books')
+    app.register_blueprint(reader_v2_bp, url_prefix='/api/v2/readers')
+    app.register_blueprint(borrow_v2_bp, url_prefix='/api/v2/readers/<int:rid>/borrow-records')
 
     app.config['SWAGGER'] = {
     'openapi': '3.0.0'

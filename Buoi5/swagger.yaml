@@ -2,11 +2,13 @@ openapi: 3.0.0
 info:
   title: Library Management API
   description: API quản lý thư viện.
-  version: 1.0.0
+  version: 2.0.0
 
 servers:
   - url: http://localhost:1604/api/v1
     description: version 1
+  - url: http://localhost:1604/api/v2
+    description: version 2
 
 paths:
   /books:
