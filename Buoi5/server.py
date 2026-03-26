@@ -1,6 +1,9 @@
 from flask import Flask
 from flasgger import Swagger
 from core.database import db
+from routes.v1.book_routes import book_bp as book_v1_bp
+from routes.v1.reader_routes import reader_bp as reader_v1_bp
+from routes.v1.borrow_routes import borrow_bp as borrow_v1_bp
 
 def create_app():
     app = Flask(__name__)
@@ -10,6 +13,10 @@ def create_app():
     # Gắn database và server với nhau
     db.init_app(app)
 
+    app.register_blueprint(book_v1_bp, url_prefix='/api/v1/books')
+    app.register_blueprint(reader_v1_bp, url_prefix='/api/v1/readers')
+    app.register_blueprint(borrow_v1_bp, url_prefix='/api/v1/readers/<int:rid>/borrow-records')
+
     app.config['SWAGGER'] = {
     'openapi': '3.0.0'
     }
@@ -18,12 +25,13 @@ def create_app():
     # Tạo bảng tự động khi server được khởi tạo
     with app.app_context():
         # Import các model vào để SQLAlchemy nhận diện
-        from models.book import Book
-        from models.reader import Reader 
+        from models.books import Book
+        from models.readers import Reader
+        from models.borrow_records import BorrowRecord 
         db.create_all()
 
     return app
 
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=1604)

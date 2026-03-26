@@ -14,6 +14,8 @@ class Reader(db.Model):
     phone = db.Column(db.String(20))
     # Ngày đăng kí
     membership_date = db.Column(db.Date, default=date.today)
+
+    borrow_records = db.relationship('BorrowRecord', backref='reader', lazy=True)
     def to_dict(self):
         return {
             "id": self.id,

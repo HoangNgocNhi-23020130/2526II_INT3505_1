@@ -11,10 +11,11 @@ class Book(db.Model):
     # Tác giả
     author = db.Column(db.String(100), nullable=False)
     # Tổng số lượng
-    total_copies = db.Column(db.Integer, default=0)
+    total_copies = db.Column(db.Integer, default=1)
     # Số sách hiện có (có thể cho mượn)
-    available_copies = db.Column(db.Integer, default=0)
+    available_copies = db.Column(db.Integer, default=1)
 
+    borrow_records = db.relationship('BorrowRecord', backref='book', lazy=True)
     def to_dict(self):
         return {
             "id": self.id,

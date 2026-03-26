@@ -4,6 +4,134 @@ info:
   description: API quản lý thư viện.
   version: 1.0.0
 
+servers:
+  - url: http://localhost:1604/api/v1
+    description: version 1
+
+paths:
+  /books:
+    get:
+      summary: Lấy danh sách tất cả sách
+      tags: [Books]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookArrayResponse'
+    post:
+      summary: Thêm sách mới
+      tags: [Books]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [isbn, title, total_copies]
+              properties:
+                isbn: { type: string }
+                title: { type: string }
+                author: { type: string }
+                total_copies: { type: integer }
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookObjectResponse'
+  /readers:
+    get:
+      summary: Lấy danh sách độc giả
+      tags: [Readers]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReaderArrayResponse'
+    post:
+      summary: Thêm độc giả mới
+      tags: [Readers]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email]
+              properties:
+                name: { type: string }
+                email: { type: string }
+                phone: { type: string }
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReaderObjectResponse'
+
+  /readers/{rid}/borrow-records:
+    parameters:
+      - name: rid
+        in: path
+        required: true
+        schema: {type: integer}
+    get:
+      summary: Lấy lịch sử mượn của 1 độc giả
+      tags: [Borrow Records]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordArrayResponse'
+    post:
+      summary: Tạo phiếu mượn sách mới
+      tags: [Borrow Records]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [book_id]
+              properties:
+                book_id: { type: integer }
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordObjectResponse'
+
+  /readers/{rid}/borrow-records/{id}:
+    parameters:
+      - name: rid
+        in: path
+        required: true
+        schema: {type: integer}
+      - name: id
+        in: path
+        required: true
+        schema: {type: integer}
+    patch:
+      summary: Trả sách (Cập nhật trạng thái phiếu mượn)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecordObjectResponse'
+          
+
 components:
   schemas:
     Book:
@@ -13,8 +141,8 @@ components:
         isbn: { type: string, example: "978-604-2-18959-0"}
         title: { type: string, example: "De men phieu luu ky" }
         author: { type: string, example: "To Hoai" }
-        total_copies: {type: integer, example: "5" }
-        available_copies: {type: integer, example: "3" }
+        total_copies: {type: integer, example: 5 }
+        available_copies: {type: integer, example: 3 }
     
     Reader:
       type: object
@@ -24,3 +152,93 @@ components:
         email: { type: string, example: "socnhi1604@gmail.com" }
         phone: { type: string, example: "0334127080" }
         membership_date: {type: string, format: date, example: "2026-03-26" }
+    
+    BorrowRecord:
+      type: object
+      properties:
+        id: { type: integer, example: 101 }
+        reader_id: { type: integer, example: 1 }
+        book_id: { type: integer, example: 5 }
+        borrow_date: { type: string, format: date }
+        due_date: { type: string, format: date }
+        return_date: { type: string, format: date, nullable: true }
+        status: 
+          type: string
+          enum: [borrowed, returned, overdue]
+
+    BookArrayResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Book'
+    
+    ReaderArrayResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/Reader'
+    
+    RecordArrayResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          type: object
+          properties:
+            items:
+              type: array
+              items:
+                $ref: '#/components/schemas/BorrowRecord'
+      
+    BookObjectResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          $ref: '#/components/schemas/Book'
+    
+    ReaderObjectResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          $ref: '#/components/schemas/Reader'
+    
+    RecordObjectResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data:
+          $ref: '#/components/schemas/BorrowRecord'
+
+    ErrorResponse:
+      type: object
+      properties:
+        success: { type: boolean  }
+        message: { type: string }
+        data: { nullable: true }
+    
+    SuccessNoDataResponse:
+      type: object
+      properties:
+        success: { type: boolean }
+        message: { type: string }
+        data: { nullable: true }
