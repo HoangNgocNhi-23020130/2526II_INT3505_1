@@ -8,26 +8,39 @@ from datetime import datetime, timedelta
 book_bp = Blueprint('books', __name__)
 
 # Hàm chuẩn hóa Response
-def send_response(success=True, data=None, message="", status_code=200):
+def send_response(success=True, data=None, meta = None, message="", status_code=200):
     return jsonify({
         "success": success,
         "message": message,
-        "data": data
+        "data": data,
+        "meta": meta
     }), status_code
 
 
-# GET all
+# GET all Offset/Limit Pagination
 @book_bp.route('/', methods=['GET'])
 def get_all():
     try:
-        # Lấy danh sách object từ DB
-        books = Book.query.all()
+        # Lấy tham số phân trang từ URL (mặc định offset=0, limit=10)
+        offset = request.args.get('offset', default=0, type=int)
+        limit = request.args.get('limit', default=10, type=int)
+
+        # Truy vấn DB có áp dụng phân trang
+        books = Book.query.offset(offset).limit(limit).all()
+        total_books = Book.query.count()
         
         # Chuyển đổi toàn bộ object thành dictionary
-        books_data = [book.to_dict() for book in books]
+        books_data = [books.to_dict() for book in books]
         
+        meta = {
+            "offset": offset,
+            "limit": limit,
+            "total_count": total_books
+        }
+
         return send_response(
-            data=books_data, 
+            data=books_data,
+            meta=meta,
             message="Successfully retrieved the list of books!", 
             status_code=200
         )

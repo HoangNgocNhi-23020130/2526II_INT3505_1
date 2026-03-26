@@ -33,7 +33,7 @@ def get_reader_borrows(rid):
         # Bắt lỗi an toàn nếu DB có vấn đề
         return send_response(
             data=None, 
-            message=f"Error retrieving books: {str(e)}", 
+            message=f"Error retrieving records: {str(e)}", 
             status_code=500
         )
 
@@ -58,7 +58,8 @@ def borrow_book(rid):
     book.available_copies -= 1
     db.session.add(new_record)
     db.session.commit()
-    return jsonify({"message": "Borrow successfull"}), 201
+
+    return send_response(data=new_record.to_dict(), message="Borrow successfull!", status_code=201)
 
 # PATCH Trả sách
 @borrow_bp.route('/<int:id>', methods=['PATCH'])
@@ -77,4 +78,4 @@ def return_book(rid, id):
     book.available_copies += 1
     
     db.session.commit()
-    return jsonify({"message": "Return successfull!"})
+    return send_response(message="Return successfull!", status_code=200)

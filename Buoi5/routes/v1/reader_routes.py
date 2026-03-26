@@ -30,7 +30,7 @@ def get_all():
         # Bắt lỗi an toàn nếu DB có vấn đề
         return send_response(
             data=None, 
-            message=f"Error retrieving books: {str(e)}", 
+            message=f"Error retrieving reader: {str(e)}", 
             status_code=500
         )
 
@@ -45,7 +45,7 @@ def create():
     if missing:
         return send_response(
             status = False,
-            message = "Missing data in " + missing + "!",
+            message = "Missing data in " + ", ".join(missing) + "!",
             status_code=400
         )
     
@@ -59,11 +59,4 @@ def create():
     db.session.add(new_reader)
     db.session.commit()
 
-    reader_data = {
-        "id": new_reader.id,
-        "isbn": new_reader.name,
-        "title": new_reader.email,
-        "author": new_reader.phone,
-        "total_copies": new_reader.membership_date
-    }
-    return send_response(data=reader_data, message="New reader added successfully!", status_code=201)
+    return send_response(data=new_reader.to_dict(), message="New reader added successfully!", status_code=201)
