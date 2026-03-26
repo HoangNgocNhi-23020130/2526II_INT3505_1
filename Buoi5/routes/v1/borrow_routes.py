@@ -22,7 +22,7 @@ def get_reader_borrows(rid):
         records = BorrowRecord.query.filter_by(reader_id=rid).all()
         
         # Chuyển đổi toàn bộ object thành dictionary
-        records_data = [records.to_dict() for rec in records]
+        records_data = [rec.to_dict() for rec in records]
         
         return send_response(
             data=records_data, 

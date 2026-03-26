@@ -5,24 +5,41 @@ from models.readers import Reader
 # Tạo một Blueprint cho books
 reader_bp = Blueprint('readers', __name__)
 # Hàm chuẩn hóa Response
-def send_response(success=True, data=None, message="", status_code=200):
+def send_response(success=True, data=None, meta = None, message="", status_code=200):
     return jsonify({
         "success": success,
         "message": message,
-        "data": data
+        "data": data,
+        "meta": meta
     }), status_code
+
 
 @reader_bp.route('/', methods=['GET'])
 def get_all():
     try:
-        # Lấy danh sách object từ DB
-        readers = Reader.query.all()
+        # Lấy tham số phân trang từ URL (mặc định trang 1, 10 người/trang)
+        page = request.args.get('page', default=1, type=int)
+        size = request.args.get('size', default=10, type=int)
+
+        # Sử dụng paginate() của SQLAlchemy
+        pagination = Reader.query.paginate(page=page, per_page=size, error_out=False)
+        readers = pagination.items
         
         # Chuyển đổi toàn bộ object thành dictionary
         readers_data = [reader.to_dict() for reader in readers]
         
+        meta = {
+            "current_page": pagination.page,
+            "size": pagination.per_page,
+            "total_pages": pagination.pages,
+            "total_items": pagination.total,
+            "has_next": pagination.has_next,
+            "has_prev": pagination.has_prev
+            }
+
         return send_response(
             data=readers_data, 
+            meta=meta,
             message="Successfully retrieved the list of readers!", 
             status_code=200
         )

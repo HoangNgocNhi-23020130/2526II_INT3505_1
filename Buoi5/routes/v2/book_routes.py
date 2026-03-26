@@ -30,7 +30,7 @@ def get_all():
         total_books = Book.query.count()
         
         # Chuyển đổi toàn bộ object thành dictionary
-        books_data = [books.to_dict() for book in books]
+        books_data = [book.to_dict() for book in books]
         
         meta = {
             "offset": offset,

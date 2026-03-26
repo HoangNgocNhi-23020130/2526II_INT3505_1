@@ -50,7 +50,7 @@ def create():
     missing = [field for field in required_fields if field not in data]
     if missing:
         return send_response(
-            status = False,
+            success = False,
             message = "Missing data in " + ", ".join(missing) + "!",
             status_code=400
         )
