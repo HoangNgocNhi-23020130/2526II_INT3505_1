@@ -21,18 +21,31 @@ Content-Type: application/json
 }
 
 ### Lưu biến token từ kết quả trả về
-@authToken = {{login.response.body.token}}
+@accessToken = {{login.response.body.data.access_token}}
+@refreshToken = {{login.response.body.data.refresh_token}}
 
 ### GET
 GET http://127.0.0.1:1604/api/books
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{accessToken}}
 
 ### POST
 POST http://127.0.0.1:1604/api/books
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
     "author": "Ngo Tat To",
     "title": "Tat Den"
 }
+
+### TEST LẤY LẠI TOKEN MỚI TỪ REFRESH TOKEN
+# @name refresh
+POST http://127.0.0.1:1604/api/auth/refresh
+Content-Type: application/json
+
+{
+    "refresh_token": "{{refreshToken}}"
+}
+
+### Cập nhật lại Access Token mới sau khi refresh
+@newAccessToken = {{refresh.response.body.data.access_token}}
