@@ -1,0 +1,101 @@
+openapi: 3.0.0
+info:
+  title: Product Catalog API
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /products:
+    get:
+      summary: Lấy danh sách sản phẩm
+      operationId: app_get_products
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProductResponse"
+                x-content-type: application/json
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    post:
+      summary: Tạo sản phẩm mới
+      operationId: app_create_product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductInput"
+        required: true
+      responses:
+        "201":
+          description: Created
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+  /products/{product_id}:
+    get:
+      summary: Lấy thông tin 1 sản phẩm
+      operationId: app_get_product
+      parameters:
+      - name: product_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResponse"
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+    delete:
+      summary: Xóa sản phẩm
+      operationId: app_delete_product
+      parameters:
+      - name: product_id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Deleted
+      x-openapi-router-controller: swagger_server.controllers.default_controller
+components:
+  schemas:
+    ProductInput:
+      required:
+      - name
+      - price
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+    ProductResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        price:
+          type: number
+        description:
+          type: string
+      example:
+        price: 0.80082819046101150206595775671303272247314453125
+        name: name
+        description: description
+        id: id
+
