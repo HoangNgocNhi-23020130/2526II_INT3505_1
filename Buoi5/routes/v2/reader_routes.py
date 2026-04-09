@@ -13,7 +13,7 @@ def send_response(success=True, data=None, meta = None, message="", status_code=
         "meta": meta
     }), status_code
 
-
+# GET all PAGE-BASED Pagination
 @reader_bp.route('/', methods=['GET'])
 def get_all():
     try:

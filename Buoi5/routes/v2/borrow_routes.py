@@ -15,7 +15,7 @@ def send_response(success=True, data=None, meta=None, message="", status_code=20
         "meta": meta
     }), status_code
 
-# GET all
+# GET all cursor-based Pagination
 @borrow_bp.route('/', methods=['GET'])
 def get_reader_borrows(rid):
     try:
