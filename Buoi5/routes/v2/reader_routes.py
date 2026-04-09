@@ -3,7 +3,7 @@ from core.database import db
 from models.readers import Reader
 
 # Tạo một Blueprint cho books
-reader_bp = Blueprint('readers', __name__)
+reader_bp = Blueprint('readers_v2', __name__)
 # Hàm chuẩn hóa Response
 def send_response(success=True, data=None, meta = None, message="", status_code=200):
     return jsonify({

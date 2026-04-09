@@ -4,7 +4,7 @@ from models.borrow_records import BorrowRecord
 from models.books import Book
 from datetime import datetime, timedelta
 
-borrow_bp = Blueprint('borrow-records', __name__)
+borrow_bp = Blueprint('borrow-records_v2', __name__)
 
 # Hàm chuẩn hóa Response
 def send_response(success=True, data=None, meta=None, message="", status_code=200):
