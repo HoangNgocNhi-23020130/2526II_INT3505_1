@@ -4,6 +4,8 @@ import six
 from swagger_server.models.product_input import ProductInput  # noqa: E501
 from swagger_server.models.product_response import ProductResponse  # noqa: E501
 from swagger_server import util
+from swagger_server.models.db_models import ProductDB
+from bson.objectid import ObjectId
 
 
 def app_create_product(body):  # noqa: E501
@@ -17,8 +19,18 @@ def app_create_product(body):  # noqa: E501
     :rtype: None
     """
     if connexion.request.is_json:
-        body = ProductInput.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        # Lấy dữ liệu user gửi lên
+        data = connexion.request.get_json() 
+        
+        # Lưu vào MongoDB
+        new_product = ProductDB(
+            name=data['name'],
+            price=data['price'],
+            description=data.get('description', '')
+        )
+        new_product.save()
+        return {"message": "Thành công", "id": str(new_product.id)}, 201
+    return "Dữ liệu không hợp lệ", 400
 
 
 def app_delete_product(product_id):  # noqa: E501
@@ -31,7 +43,17 @@ def app_delete_product(product_id):  # noqa: E501
 
     :rtype: None
     """
-    return 'do some magic!'
+    # Tìm sản phẩm trong DB
+    product = ProductDB.objects(id=product_id).first()
+    
+    # Nếu không tìm thấy
+    if not product:
+        return "Không tìm thấy sản phẩm để xóa", 404
+        
+    # Xóa sản phẩm khỏi database
+    product.delete()
+    
+    return "Xóa sản phẩm thành công", 204
 
 
 def app_get_product(product_id):  # noqa: E501
@@ -44,8 +66,19 @@ def app_get_product(product_id):  # noqa: E501
 
     :rtype: ProductResponse
     """
-    return 'do some magic!'
-
+    product = ProductDB.objects(id=product_id).first()
+    
+    # Nếu không tìm thấy, trả về lỗi 404
+    if not product:
+        return "Không tìm thấy sản phẩm", 404
+        
+    # Nếu tìm thấy, trả về thông tin sản phẩm và mã 200 (OK)
+    return {
+        "id": str(product.id),
+        "name": product.name,
+        "price": product.price,
+        "description": product.description
+    }, 200
 
 def app_get_products():  # noqa: E501
     """Lấy danh sách sản phẩm
@@ -55,4 +88,13 @@ def app_get_products():  # noqa: E501
 
     :rtype: List[ProductResponse]
     """
-    return 'do some magic!'
+    products = ProductDB.objects()
+    result = []
+    for p in products:
+        result.append({
+            "id": str(p.id),
+            "name": p.name,
+            "price": p.price,
+            "description": p.description
+        })
+    return result, 200
