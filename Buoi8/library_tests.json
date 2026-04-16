@@ -1,0 +1,96 @@
+{
+  "info": {
+    "_postman_id": "06ff80d6-e9e6-4991-bfaa-d8398de3fc46",
+    "name": "Test API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "53368557",
+    "_collection_link": "https://go.postman.co/collection/53368557-06ff80d6-e9e6-4991-bfaa-d8398de3fc46?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get Books",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Get a book",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Post new book",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Tạo thành công - Status 201\", () => {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Thông điệp trả về đúng\", () => {\r",
+              "    pm.expect(pm.response.json().message).to.eql(\"Created!\");\r",
+              "    // Lưu lại ID để dùng cho các test sau\r",
+              "    pm.collectionVariables.set(\"latest_book_id\", pm.response.json().data.id);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"title\": \"Học Newman\", \"author\": \"Tester\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://127.0.0.1:1604/api/books",
+          "protocol": "http",
+          "host": [
+            "127",
+            "0",
+            "0",
+            "1"
+          ],
+          "port": "1604",
+          "path": [
+            "api",
+            "books"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Put book",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Book",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
