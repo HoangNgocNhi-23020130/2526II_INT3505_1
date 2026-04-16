@@ -16,6 +16,9 @@ Sử dụng file `openapi.yaml` làm chuẩn để tạo ra Server giả lập t
     ```bash
     npx @stoplight/prism-cli mock openapi.yaml
     ```
+    ```
+    npx swagger-ui-watcher openapi.yaml
+    ```
 5. Terminal sẽ thông báo Server đang chạy thành công tại địa chỉ: [Mock Server](http://127.0.0.1:4010).
 (Lưu ý: Giữ nguyên cửa sổ Terminal này trong suốt quá trình test).
 6. Thực hiện demo với mỗi Spec theo hướng dẫn cụ thể ở mỗi thư mục.

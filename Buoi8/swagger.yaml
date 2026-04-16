@@ -1,0 +1,211 @@
+openapi: 3.0.3
+info:
+  title: Flask Books API
+  description: API quản lý thư viện sách đơn giản viết bằng Flask.
+  version: 1.0.0
+servers:
+  - url: http://localhost:1604
+    description: Local server
+
+paths:
+  /api/books:
+    get:
+      summary: Lấy danh sách tất cả các cuốn sách
+      tags:
+        - Books
+      responses:
+        '200':
+          description: Trả về danh sách sách thành công.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayResponse'
+              example:
+                status: "success"
+                data:
+                  - id: 1
+                    title: "Flask cơ bản"
+                    author: "John Doe"
+                  - id: 2
+                    title: "API Testing"
+                    author: "Jane Smith"
+                message: null
+
+    post:
+      summary: Thêm một cuốn sách mới
+      tags:
+        - Books
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '201':
+          description: Sách được tạo thành công.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectResponse'
+              example:
+                status: "success"
+                data:
+                  id: 3
+                  title: "Sách mới"
+                  author: "Tác giả mới"
+                message: "Created!"
+
+  /api/books/{book_id}:
+    parameters:
+      - in: path
+        name: book_id
+        schema:
+          type: integer
+        required: true
+        description: ID của cuốn sách
+    get:
+      summary: Lấy thông tin sách theo ID
+      tags:
+        - Books
+      responses:
+        '200':
+          description: Tìm thấy sách.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectResponse'
+              example:
+                status: "success"
+                data:
+                  id: 1
+                  title: "Flask cơ bản"
+                  author: "John Doe"
+                message: "Here your book"
+        '404':
+          description: Không tìm thấy sách.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      summary: Cập nhật thông tin sách
+      tags:
+        - Books
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookInput'
+      responses:
+        '200':
+          description: Cập nhật thành công.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectResponse'
+              example:
+                status: "success"
+                data:
+                  id: 1
+                  title: "Flask nâng cao"
+                  author: "John Doe"
+                message: "Done!"
+        '404':
+          description: Không tìm thấy sách để cập nhật.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      summary: Xóa sách theo ID
+      tags:
+        - Books
+      responses:
+        '200':
+          description: Xóa thành công.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+              example:
+                status: "success"
+                data: null
+                message: "Deleted!"
+
+components:
+  schemas:
+    # Model đầu vào khi tạo/cập nhật sách
+    BookInput:
+      type: object
+      required:
+        - title
+        - author
+      properties:
+        title:
+          type: string
+          example: "Tên cuốn sách"
+        author:
+          type: string
+          example: "Tên tác giả"
+
+    # Model trả về của 1 cuốn sách
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        author:
+          type: string
+
+    # Dạng Response cơ bản (được định nghĩa từ hàm library_response)
+    BaseResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "success"
+        data:
+          nullable: true
+        message:
+          type: string
+          nullable: true
+          example: null
+
+    # Response khi trả về 1 object sách
+    ObjectResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/Book'
+
+    # Response khi trả về 1 mảng sách
+    ArrayResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            data:
+              type: array
+              items:
+                $ref: '#/components/schemas/Book'
+
+    # Response khi có lỗi
+    ErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          properties:
+            status:
+              type: string
+              example: "error"
+            message:
+              type: string
+              example: "Book not found"
