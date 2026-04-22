@@ -1,6 +1,16 @@
+### v1
 POST http://127.0.0.1:1604/api/v1/payments
 Content-Type: application/json
 
 {
     "amount": 500000
+}
+
+### v2
+POST http://127.0.0.1:1604/api/v2/payments
+Content-Type: application/json
+
+{
+    "amount": 500000,
+    "currency": "usd"
 }
