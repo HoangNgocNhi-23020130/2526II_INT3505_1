@@ -1,0 +1,102 @@
+[2026-05-11 00:08:33,573] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-11 00:08:33,577] WARNING in routes: Truy cập vào API nhạy cảm!
+[2026-05-11 00:08:33,579] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:33,960] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-11 00:08:33,964] WARNING in routes: Truy cập vào API nhạy cảm!
+[2026-05-11 00:08:33,968] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:35,076] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-11 00:08:35,088] WARNING in routes: Truy cập vào API nhạy cảm!
+[2026-05-11 00:08:35,092] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:35,426] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-11 00:08:35,431] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-11 00:08:35,434] INFO in app: Phản hồi: 429
+[2026-05-11 00:08:35,756] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-11 00:08:35,764] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-11 00:08:35,766] INFO in app: Phản hồi: 429
+[2026-05-11 00:08:35,976] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/sensitive | IP: 127.0.0.1
+[2026-05-11 00:08:35,981] WARNING in app: Người dùng bị chặn do Rate Limit: 127.0.0.1
+[2026-05-11 00:08:35,985] INFO in app: Phản hồi: 429
+[2026-05-11 00:08:38,306] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:38,307] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:38,308] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:38,462] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:38,462] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:38,463] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:38,655] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:38,657] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:38,660] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:38,871] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:38,874] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:38,877] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:40,597] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:40,598] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:40,599] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:40,763] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:40,764] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:40,765] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:40,939] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:40,940] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:40,941] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:41,122] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:41,124] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:41,125] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:41,296] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:41,297] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:41,299] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:41,482] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:41,485] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:41,487] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:41,625] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:41,626] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:41,627] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:41,829] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:41,831] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:41,833] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:42,043] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:42,045] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:42,046] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:42,301] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:42,304] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:42,306] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:42,474] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:42,474] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:42,475] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:42,565] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:42,566] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:42,566] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:42,691] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:42,693] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:42,695] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:42,982] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:42,984] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:42,987] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:43,172] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:43,174] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:43,178] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:43,383] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:43,386] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:43,389] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:43,529] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:43,529] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:43,530] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:43,614] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:43,615] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:43,616] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:43,724] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/public | IP: 127.0.0.1
+[2026-05-11 00:08:43,725] INFO in routes: Một người dùng vừa truy cập API public.
+[2026-05-11 00:08:43,726] INFO in app: Phản hồi: 200
+[2026-05-11 00:08:46,954] INFO in app: Yêu cầu đến: GET http://127.0.0.1:5000/api/error | IP: 127.0.0.1
+[2026-05-11 00:08:46,956] INFO in routes: Đang cố gắng thực hiện một phép tính nguy hiểm...
+[2026-05-11 00:08:46,958] ERROR in app: Lỗi hệ thống không mong muốn: division by zero
+Traceback (most recent call last):
+  File "C:\Users\ASUS\Desktop\2526II_INT3505_1\venv\Lib\site-packages\flask\app.py", line 1823, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\2526II_INT3505_1\venv\Lib\site-packages\flask\app.py", line 1799, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ASUS\Desktop\2526II_INT3505_1\Buoi10\routes.py", line 25, in trigger_error
+    1 / 0  # Lỗi chia cho 0
+    ~~^~~
+ZeroDivisionError: division by zero
+[2026-05-11 00:08:46,969] INFO in app: Phản hồi: 500
