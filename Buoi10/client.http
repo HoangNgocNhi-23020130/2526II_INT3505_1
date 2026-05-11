@@ -1,0 +1,14 @@
+###
+http://127.0.0.1:5000/api/sensitive
+
+###
+http://127.0.0.1:5000/api/public
+
+###
+http://127.0.0.1:5000/api/data
+
+###
+http://127.0.0.1:5000/api/error
+
+###
+http://127.0.0.1:5000/api/metrics

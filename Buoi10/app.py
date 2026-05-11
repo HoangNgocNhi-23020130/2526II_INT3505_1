@@ -1,14 +1,19 @@
+from prometheus_client import generate_latest
 import logging
 from logging.handlers import RotatingFileHandler
 from flask import Flask, jsonify, request
-from extensions import limiter
+from extensions import limiter, metrics
 from routes import api_bp
+from werkzeug.exceptions import HTTPException
 
 def create_app():
     app = Flask(__name__)
+    app.json.ensure_ascii = False
 
     # 1. Khởi tạo (gắn) limiter vào app
     limiter.init_app(app)
+    # Khởi tạo Prometheus và cấu hình endpoint mặc định là /metrics
+    metrics.init_app(app)
 
     # 2. Đăng ký các API từ Blueprint
     app.register_blueprint(api_bp, url_prefix='/api')
@@ -54,6 +59,8 @@ def register_error_handlers(app):
 
     @app.errorhandler(Exception)
     def handle_exception(e):
+        if isinstance(e, HTTPException):
+            return jsonify({"error": e.description}), e.code
         # Ghi log toàn bộ traceback của lỗi (exc_info=True)
         app.logger.error(f"Lỗi hệ thống không mong muốn: {str(e)}", exc_info=True)
         return jsonify({"error": "Đã xảy ra lỗi hệ thống (500)."}), 500
