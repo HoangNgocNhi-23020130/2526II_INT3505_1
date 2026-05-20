@@ -14,14 +14,12 @@ PRODUCTS = [
     {"id": 3, "name": "Desk", "category": "furniture", "price": 200, "created_at": "2023-01-03"}
 ]
 
-def app_response(status, data=None, message=None, meta=None, code=200):
+def app_response(status, data=None, message=None, code=200):
     response = {
         "status": status,
         "data": data,
         "message": message
     }
-    if meta:
-        response["meta"] = meta
     return jsonify(response), code
 
 # ==========================================
@@ -54,17 +52,43 @@ def get_products():
     end = start + limit
     paginated_results = results[start:end]
 
-    meta = {
-        "current_page": page,
-        "limit": limit,
-        "total": len(results)
-    }
+    return app_response(
+        status="success",
+        message="Products retrieved successfully",
+        data={
+            "items": paginated_results,
+            "meta": {
+                "page": page,
+                "limit": limit,
+                "total": len(results)
+            }
+        }
+    )
+
+# ==========================================
+# 3. HATEOAS PATTERN
+# ==========================================
+@app.route('/api/v1/products/<int:product_id>', methods=['GET'])
+def get_product(product_id):
+    """
+    Demo HATEOAS: Trả về dữ liệu kèm theo các 'links' để client biết bước tiếp theo.
+    """
+    product = next((p for p in PRODUCTS if p['id'] == product_id), None)
+    if not product:
+        return jsonify({"error": "Not found"}), 404
+        
+    response_data = product.copy()
+    
+    # Thêm điều hướng Hypermedia
+    response_data['links'] = [
+        {"rel": "self", "href": f"/api/v1/products/{product_id}", "method": "GET"},
+        {"rel": "buy", "href": "/api/v1/orders", "method": "POST"}
+    ]
     
     return app_response(
         status="success", 
-        data=paginated_results, 
-        meta=meta,
+        message="Product details retrieved successfully", 
+        data=response_data
     )
-
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
