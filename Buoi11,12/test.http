@@ -3,3 +3,19 @@ GET http://127.0.0.1:5000/api/v1/products?category=electronics&sort=-price&page=
 
 ### 3
 GET http://127.0.0.1:5000/api/v1/products/1
+
+### 4&5
+### Đăng kí Webhook
+POST http://127.0.0.1:5000/api/v1/webhooks/subscribe
+Content-Type: application/json
+
+{
+    "endpoint_url": "https://webhook.site/01db5436-e904-4f4b-99a5-a0a88c7c3822"
+}
+### Đặt hàng (Kích hoạt Event-Driven)
+POST http://127.0.0.1:5000/api/v1/orders
+Content-Type: application/json
+
+{
+    "product_id": 1, "user": "test_user"
+}
